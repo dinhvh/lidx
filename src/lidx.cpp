@@ -4,16 +4,19 @@
 
 #include <leveldb/db.h>
 #include <leveldb/status.h>
+#include <leveldb/write_batch.h>
 
 #include "lidx-utils.h"
 #include "lidx-icu-utils.h"
 #include "lidx-encode.h"
 
 #include <set>
+#include <map>
 
 static int db_put(lidx * index, std::string & key, std::string & value);
 static int db_get(lidx * index, std::string & key, std::string * p_value);
 static int db_delete(lidx * index, std::string & key);
+static int db_flush(lidx * index);
 
 // . -> next word id
 // ,[docid] -> [words ids]
@@ -22,17 +25,26 @@ static int db_delete(lidx * index, std::string & key);
 
 struct lidx {
   leveldb::DB * lidx_db;
+  std::map<std::string, std::string> * lidx_buffer;
+  std::set<std::string> * lidx_buffer_dirty;
+  std::set<std::string> * lidx_deleted;
 };
 
 lidx * lidx_new(void)
 {
   lidx_init_icu_utils();
   lidx * result = (lidx *) calloc(1, sizeof(* result));
+  result->lidx_buffer = new std::map<std::string, std::string>();
+  result->lidx_buffer_dirty = new std::set<std::string>();
+  result->lidx_deleted = new std::set<std::string>();
   return result;
 }
 
 void lidx_free(lidx * index)
 {
+  delete index->lidx_buffer;
+  delete index->lidx_buffer_dirty;
+  delete index->lidx_deleted;
   free(index);
 }
 
@@ -55,8 +67,14 @@ void lidx_close(lidx * index)
   if (index->lidx_db == NULL) {
     return;
   }
+  db_flush(index);
   delete index->lidx_db;
   index->lidx_db = NULL;
+}
+
+int lidx_flush(lidx * index)
+{
+  return db_flush(index);
 }
 
 //int lidx_set(lidx * index, uint64_t doc, const char * text);
@@ -212,9 +230,7 @@ static int add_to_indexer(lidx * index, uint64_t doc, const char * word,
   }
   
   wordsids_set.insert(wordid);
-  
-  //delete iterator;
-  
+
   return 0;
 }
 
@@ -340,6 +356,8 @@ int lidx_search(lidx * index, const char * token, lidx_search_kind kind, uint64_
 int lidx_u_search(lidx * index, const UChar * utoken, lidx_search_kind kind,
     uint64_t ** p_docsids, size_t * p_count)
 {
+  db_flush(index);
+  
   char * transliterated = lidx_transliterate(utoken, -1);
   unsigned int transliterated_length = strlen(transliterated);
   std::set<uint64_t> result_set;
@@ -414,16 +432,24 @@ int lidx_u_search(lidx * index, const UChar * utoken, lidx_search_kind kind,
 
 static int db_put(lidx * index, std::string & key, std::string & value)
 {
-  leveldb::WriteOptions write_options;
-  leveldb::Status status = index->lidx_db->Put(write_options, key, value);
-  if (!status.ok()) {
-    return -1;
-  }
+  index->lidx_deleted->erase(key);
+  (* index->lidx_buffer)[key] = value;
+  index->lidx_buffer_dirty->insert(key);
+
   return 0;
 }
 
 static int db_get(lidx * index, std::string & key, std::string * p_value)
 {
+  if (index->lidx_deleted->find(key) != index->lidx_deleted->end()) {
+    return -1;
+  }
+
+  if (index->lidx_buffer->find(key) != index->lidx_buffer->end()) {
+    * p_value = (* index->lidx_buffer)[key];
+    return 0;
+  }
+  
   leveldb::ReadOptions read_options;
   leveldb::Status status = index->lidx_db->Get(read_options, key, p_value);
   if (status.IsNotFound()) {
@@ -432,13 +458,35 @@ static int db_get(lidx * index, std::string & key, std::string * p_value)
   if (!status.ok()) {
     return -2;
   }
-  return 0;    
+  (* index->lidx_buffer)[key] = * p_value;
+  return 0;
 }
 
 static int db_delete(lidx * index, std::string & key)
 {
+  index->lidx_deleted->insert(key);
+  index->lidx_buffer_dirty->erase(key);
+  index->lidx_buffer->erase(key);
+  return 0;
+}
+
+static int db_flush(lidx * index)
+{
+  if ((index->lidx_buffer_dirty->size() == 0) && (index->lidx_deleted->size() == 0)) {
+    return 0;
+  }
+  leveldb::WriteBatch batch;
+  for(std::set<std::string>::iterator set_iterator = index->lidx_buffer_dirty->begin() ; set_iterator != index->lidx_buffer_dirty->end() ; ++ set_iterator) {
+    std::string key = * set_iterator;
+    std::string value = (* index->lidx_buffer)[key];
+    batch.Put(key, value);
+  }
+  for(std::set<std::string>::iterator set_iterator = index->lidx_deleted->begin() ; set_iterator != index->lidx_deleted->end() ; ++ set_iterator) {
+    std::string key = * set_iterator;
+    batch.Delete(key);
+  }
   leveldb::WriteOptions write_options;
-  leveldb::Status status = index->lidx_db->Delete(write_options, key);
+  leveldb::Status status = index->lidx_db->Write(write_options, &batch);
   if (!status.ok()) {
     return -1;
   }

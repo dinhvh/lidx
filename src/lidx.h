@@ -54,6 +54,8 @@ int lidx_search(lidx * index, const char * token, lidx_search_kind kind,
 int lidx_u_search(lidx * index, const UChar * utoken, lidx_search_kind kind,
     uint64_t ** p_docsids, size_t * p_count);
 
+int lidx_flush(lidx * index);
+
 #ifdef __cplusplus
 }
 #endif
