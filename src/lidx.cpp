@@ -54,7 +54,7 @@ int lidx_open(lidx * index, const char * filename)
   leveldb::Status status;
 
   options.create_if_missing = true;
-  status = leveldb::DB::Open(options, "index.leveldb", &index->lidx_db);
+  status = leveldb::DB::Open(options, filename, &index->lidx_db);
   if (!status.ok()) {
     return -1;
   }
