@@ -53,6 +53,7 @@ int lidx_open(lidx * index, const char * filename)
   leveldb::Options options;
   leveldb::Status status;
 
+  options.max_open_files = 0;
   options.create_if_missing = true;
   status = leveldb::DB::Open(options, filename, &index->lidx_db);
   if (!status.ok()) {
