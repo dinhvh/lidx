@@ -385,11 +385,6 @@ int lidx_u_search(lidx * index, const UChar * utoken, lidx_search_kind kind,
       add_to_result = 1;
     }
     else if (kind == lidx_search_kind_substr) {
-      const char * data = iterator->key().data();
-      size_t size = iterator->key().size();
-      char * str = (char *) malloc(size + 1);
-      memcpy(str, data, size);
-      str[size] = 0;
       if (iterator->key().ToString().find(transliterated) != -1) {
         add_to_result = 1;
       }
