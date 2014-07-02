@@ -374,7 +374,6 @@ int lidx_u_search(lidx * index, const UChar * utoken, lidx_search_kind kind,
     int add_to_result = 0;
     
     if (iterator->key().starts_with(".") || iterator->key().starts_with(",") || iterator->key().starts_with("/")) {
-      std::string key = iterator->key().ToString();
       iterator->Next();
       continue;
     }
