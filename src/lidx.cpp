@@ -485,5 +485,8 @@ static int db_flush(lidx * index)
   if (!status.ok()) {
     return -1;
   }
+  index->lidx_buffer->clear();
+  index->lidx_buffer_dirty->clear();
+  index->lidx_deleted->clear();
   return 0;
 }
