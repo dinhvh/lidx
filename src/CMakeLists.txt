@@ -7,17 +7,11 @@ ENDIF()
 
 IF(APPLE)
   set(additional_includes
-    /usr/include/tidy
-    /usr/include/libxml2
     /usr/local/opt/icu4c/include
   )
   
   set(additional_lib_searchpath
     /usr/local/opt/icu4c/lib
-  )
-ELSE()
-  set(additional_includes
-    /usr/include/libxml2
   )
 ENDIF()
 
