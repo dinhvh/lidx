@@ -8,20 +8,16 @@ Requirements
 - LevelDB
 - ICU library
 
-How to build LevelDB for iOS
+How to build dependencies
 ============================
 ```
-$ cd leveldb
-$ make PLATFORM=IOS
+$ cd scripts
+$ ./prepare.sh
 ```
+The result will be available in lidx/third-party.
 
-How to build ICU for iOS and Mac
-================================
-in `lidx/scripts`, you'll find two scripts `prepare-icu4c-ios.sh` and `prepare-icu4c-macos.sh`.
-The results of the builds will be available in `lidx/scripts/builds/builds`.
-
-How to use it
-=============
+How to use lidx
+===============
 
 ```
 lidx * indexer;

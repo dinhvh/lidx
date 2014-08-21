@@ -191,11 +191,11 @@ echo build of icu4c-$build_version done
 
 popd
 
-rm -rf ../Externals/icu4c-ios
-mkdir -p ../Externals/tmp
-unzip -q "$resultdir/icu4c-ios-$build_version.zip" -d ../Externals/tmp
-mv "../Externals/tmp/icu4c-ios-$build_version/icu4c-ios" ../Externals
-rm -rf ../Externals/tmp
+rm -rf ../third-party/icu4c-ios
+mkdir -p ../third-party/tmp
+unzip -q "$resultdir/icu4c-ios-$build_version.zip" -d ../third-party/tmp
+mv "../third-party/tmp/icu4c-ios-$build_version/icu4c-ios" ../third-party
+rm -rf ../third-party/tmp
 
 echo cleaning
 rm -rf "$tempbuilddir"

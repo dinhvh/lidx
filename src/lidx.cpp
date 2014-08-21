@@ -359,7 +359,7 @@ int lidx_u_search(lidx * index, const UChar * utoken, lidx_search_kind kind,
   db_flush(index);
   
   char * transliterated = lidx_transliterate(utoken, -1);
-  unsigned int transliterated_length = strlen(transliterated);
+  unsigned int transliterated_length = (unsigned int) strlen(transliterated);
   std::set<uint64_t> result_set;
   
   leveldb::ReadOptions options;

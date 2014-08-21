@@ -134,7 +134,7 @@ void lidx_deinit_icu_utils(void)
 
 UChar * lidx_from_utf8(const char * word)
 {
-  int len = strlen(word);
+  int len = (int) strlen(word);
   UChar * uword = (UChar *) malloc(sizeof(* uword) * (len + 1));
   uword[len] = 0;
   UErrorCode status = U_ZERO_ERROR;

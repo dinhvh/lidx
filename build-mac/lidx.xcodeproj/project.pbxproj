@@ -1,0 +1,355 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C64F4BAF19A5CE9100C9BC82 /* lidx-encode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64F4BA819A5CE9100C9BC82 /* lidx-encode.cpp */; };
+		C64F4BB019A5CE9100C9BC82 /* lidx-encode.h in Headers */ = {isa = PBXBuildFile; fileRef = C64F4BA919A5CE9100C9BC82 /* lidx-encode.h */; };
+		C64F4BB119A5CE9100C9BC82 /* lidx-icu-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = C64F4BAA19A5CE9100C9BC82 /* lidx-icu-utils.c */; };
+		C64F4BB219A5CE9100C9BC82 /* lidx-icu-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = C64F4BAB19A5CE9100C9BC82 /* lidx-icu-utils.h */; };
+		C64F4BB319A5CE9100C9BC82 /* lidx-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = C64F4BAC19A5CE9100C9BC82 /* lidx-utils.h */; };
+		C64F4BB419A5CE9100C9BC82 /* lidx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64F4BAD19A5CE9100C9BC82 /* lidx.cpp */; };
+		C64F4BB519A5CE9100C9BC82 /* lidx.h in Headers */ = {isa = PBXBuildFile; fileRef = C64F4BAE19A5CE9100C9BC82 /* lidx.h */; };
+		C64F4BB819A5D05600C9BC82 /* lidx-icu-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = C64F4BAA19A5CE9100C9BC82 /* lidx-icu-utils.c */; };
+		C64F4BB919A5D05600C9BC82 /* lidx-encode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64F4BA819A5CE9100C9BC82 /* lidx-encode.cpp */; };
+		C64F4BBA19A5D05600C9BC82 /* lidx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64F4BAD19A5CE9100C9BC82 /* lidx.cpp */; };
+		C64F4BBD19A5D05600C9BC82 /* lidx-encode.h in Headers */ = {isa = PBXBuildFile; fileRef = C64F4BA919A5CE9100C9BC82 /* lidx-encode.h */; };
+		C64F4BBE19A5D05600C9BC82 /* lidx.h in Headers */ = {isa = PBXBuildFile; fileRef = C64F4BAE19A5CE9100C9BC82 /* lidx.h */; };
+		C64F4BBF19A5D05600C9BC82 /* lidx-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = C64F4BAC19A5CE9100C9BC82 /* lidx-utils.h */; };
+		C64F4BC019A5D05600C9BC82 /* lidx-icu-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = C64F4BAB19A5CE9100C9BC82 /* lidx-icu-utils.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C625769B19A5CE7300A1916F /* liblidx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblidx.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C64F4BA819A5CE9100C9BC82 /* lidx-encode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "lidx-encode.cpp"; sourceTree = "<group>"; };
+		C64F4BA919A5CE9100C9BC82 /* lidx-encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "lidx-encode.h"; sourceTree = "<group>"; };
+		C64F4BAA19A5CE9100C9BC82 /* lidx-icu-utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "lidx-icu-utils.c"; sourceTree = "<group>"; };
+		C64F4BAB19A5CE9100C9BC82 /* lidx-icu-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "lidx-icu-utils.h"; sourceTree = "<group>"; };
+		C64F4BAC19A5CE9100C9BC82 /* lidx-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "lidx-utils.h"; sourceTree = "<group>"; };
+		C64F4BAD19A5CE9100C9BC82 /* lidx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lidx.cpp; sourceTree = "<group>"; };
+		C64F4BAE19A5CE9100C9BC82 /* lidx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lidx.h; sourceTree = "<group>"; };
+		C64F4BC419A5D05600C9BC82 /* liblidx-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "liblidx-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C625769819A5CE7300A1916F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C64F4BBB19A5D05600C9BC82 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C625769219A5CE7300A1916F = {
+			isa = PBXGroup;
+			children = (
+				C64F4BA619A5CE9100C9BC82 /* src */,
+				C625769C19A5CE7300A1916F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C625769C19A5CE7300A1916F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C625769B19A5CE7300A1916F /* liblidx.a */,
+				C64F4BC419A5D05600C9BC82 /* liblidx-ios.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C64F4BA619A5CE9100C9BC82 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				C64F4BA819A5CE9100C9BC82 /* lidx-encode.cpp */,
+				C64F4BA919A5CE9100C9BC82 /* lidx-encode.h */,
+				C64F4BAA19A5CE9100C9BC82 /* lidx-icu-utils.c */,
+				C64F4BAB19A5CE9100C9BC82 /* lidx-icu-utils.h */,
+				C64F4BAC19A5CE9100C9BC82 /* lidx-utils.h */,
+				C64F4BAD19A5CE9100C9BC82 /* lidx.cpp */,
+				C64F4BAE19A5CE9100C9BC82 /* lidx.h */,
+			);
+			name = src;
+			path = ../src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C625769919A5CE7300A1916F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C64F4BB019A5CE9100C9BC82 /* lidx-encode.h in Headers */,
+				C64F4BB519A5CE9100C9BC82 /* lidx.h in Headers */,
+				C64F4BB319A5CE9100C9BC82 /* lidx-utils.h in Headers */,
+				C64F4BB219A5CE9100C9BC82 /* lidx-icu-utils.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C64F4BBC19A5D05600C9BC82 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C64F4BBD19A5D05600C9BC82 /* lidx-encode.h in Headers */,
+				C64F4BBE19A5D05600C9BC82 /* lidx.h in Headers */,
+				C64F4BBF19A5D05600C9BC82 /* lidx-utils.h in Headers */,
+				C64F4BC019A5D05600C9BC82 /* lidx-icu-utils.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C625769A19A5CE7300A1916F /* lidx */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C625769F19A5CE7300A1916F /* Build configuration list for PBXNativeTarget "lidx" */;
+			buildPhases = (
+				C625769719A5CE7300A1916F /* Sources */,
+				C625769819A5CE7300A1916F /* Frameworks */,
+				C625769919A5CE7300A1916F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = lidx;
+			productName = lidx;
+			productReference = C625769B19A5CE7300A1916F /* liblidx.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		C64F4BB619A5D05600C9BC82 /* lidx-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C64F4BC119A5D05600C9BC82 /* Build configuration list for PBXNativeTarget "lidx-ios" */;
+			buildPhases = (
+				C64F4BB719A5D05600C9BC82 /* Sources */,
+				C64F4BBB19A5D05600C9BC82 /* Frameworks */,
+				C64F4BBC19A5D05600C9BC82 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "lidx-ios";
+			productName = lidx;
+			productReference = C64F4BC419A5D05600C9BC82 /* liblidx-ios.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C625769319A5CE7300A1916F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Hoa V. DINH";
+				TargetAttributes = {
+					C625769A19A5CE7300A1916F = {
+						CreatedOnToolsVersion = 6.0;
+					};
+				};
+			};
+			buildConfigurationList = C625769619A5CE7300A1916F /* Build configuration list for PBXProject "lidx" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C625769219A5CE7300A1916F;
+			productRefGroup = C625769C19A5CE7300A1916F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C625769A19A5CE7300A1916F /* lidx */,
+				C64F4BB619A5D05600C9BC82 /* lidx-ios */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C625769719A5CE7300A1916F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C64F4BB119A5CE9100C9BC82 /* lidx-icu-utils.c in Sources */,
+				C64F4BAF19A5CE9100C9BC82 /* lidx-encode.cpp in Sources */,
+				C64F4BB419A5CE9100C9BC82 /* lidx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C64F4BB719A5D05600C9BC82 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C64F4BB819A5D05600C9BC82 /* lidx-icu-utils.c in Sources */,
+				C64F4BB919A5D05600C9BC82 /* lidx-encode.cpp in Sources */,
+				C64F4BBA19A5D05600C9BC82 /* lidx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C625769D19A5CE7300A1916F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIDX_IOS_HEADER_PATH = "$(SRCROOT)/../third-party/leveldb-ios/include $(SRCROOT)/../third-party/icu4c-ios/include";
+				LIDX_OSX_HEADER_PATH = "$(SRCROOT)/../third-party/leveldb/include $(SRCROOT)/../third-party/icu4c/include";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C625769E19A5CE7300A1916F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIDX_IOS_HEADER_PATH = "$(SRCROOT)/../third-party/leveldb-ios/include $(SRCROOT)/../third-party/icu4c-ios/include";
+				LIDX_OSX_HEADER_PATH = "$(SRCROOT)/../third-party/leveldb/include $(SRCROOT)/../third-party/icu4c/include";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C62576A019A5CE7300A1916F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "$(LIDX_OSX_HEADER_PATH)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C62576A119A5CE7300A1916F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "$(LIDX_OSX_HEADER_PATH)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		C64F4BC219A5D05600C9BC82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "$(LIDX_IOS_HEADER_PATH)";
+				PRODUCT_NAME = "lidx-ios";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C64F4BC319A5D05600C9BC82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "$(LIDX_IOS_HEADER_PATH)";
+				PRODUCT_NAME = "lidx-ios";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C625769619A5CE7300A1916F /* Build configuration list for PBXProject "lidx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C625769D19A5CE7300A1916F /* Debug */,
+				C625769E19A5CE7300A1916F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C625769F19A5CE7300A1916F /* Build configuration list for PBXNativeTarget "lidx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C62576A019A5CE7300A1916F /* Debug */,
+				C62576A119A5CE7300A1916F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C64F4BC119A5D05600C9BC82 /* Build configuration list for PBXNativeTarget "lidx-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C64F4BC219A5D05600C9BC82 /* Debug */,
+				C64F4BC319A5D05600C9BC82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C625769319A5CE7300A1916F /* Project object */;
+}
