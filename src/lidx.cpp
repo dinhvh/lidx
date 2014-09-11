@@ -113,8 +113,8 @@ int lidx_u_set(lidx * index, uint64_t doc, const UChar * utext)
 
 static int tokenize(lidx * index, uint64_t doc, const UChar * text)
 {
-#if __APPLE__
   int result = 0;
+#if __APPLE__
   unsigned int len = lidx_u_get_length(text);
   CFStringRef str = CFStringCreateWithBytes(NULL, (const UInt8 *) text, len * sizeof(* text), kCFStringEncodingUTF16LE, false);
   CFStringTokenizerRef tokenizer = CFStringTokenizerCreate(NULL, str, CFRangeMake(0, len), kCFStringTokenizerUnitWord, NULL);
@@ -142,22 +142,7 @@ static int tokenize(lidx * index, uint64_t doc, const UChar * text)
   }
   CFRelease(str);
   CFRelease(tokenizer);
-  
-  std::string key(",");
-  lidx_encode_uint64(key, doc);
-  
-  std::string value_str;
-  for(std::set<uint64_t>::iterator wordsids_set_iterator = wordsids_set.begin() ; wordsids_set_iterator != wordsids_set.end() ; ++ wordsids_set_iterator) {
-    lidx_encode_uint64(value_str, * wordsids_set_iterator);
-  }
-  int r = db_put(index, key, value_str);
-  if (r < 0) {
-    return r;
-  }
-  
-  return result;
 #else
-  int result = 0;
   UErrorCode status;
   status = U_ZERO_ERROR;
   UBreakIterator * iterator = ubrk_open(UBRK_WORD, NULL, text, u_strlen(text), &status);
@@ -195,7 +180,7 @@ static int tokenize(lidx * index, uint64_t doc, const UChar * text)
     free(transliterated);
   }
   ubrk_close(iterator);
-  
+#endif
   std::string key(",");
   lidx_encode_uint64(key, doc);
   
@@ -209,7 +194,6 @@ static int tokenize(lidx * index, uint64_t doc, const UChar * text)
   }
   
   return result;
-#endif
 }
 
 static int add_to_indexer(lidx * index, uint64_t doc, const char * word,
