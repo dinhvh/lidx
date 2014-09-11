@@ -2,6 +2,7 @@
 
 #define LIDX_ICU_UTILS_H
 
+#if !__APPLE__
 #include "unicode/utypes.h"
 #include "unicode/uloc.h"
 #include "unicode/utext.h"
@@ -16,6 +17,13 @@
 #include "unicode/putil.h"
 #include "unicode/uiter.h"
 #include "unicode/ustring.h"
+#else
+#if defined(__CHAR16_TYPE__)
+typedef __CHAR16_TYPE__ UChar;
+#else
+typedef uint16_t UChar;
+#endif
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,6 +32,7 @@ extern "C" {
 void lidx_init_icu_utils(void);
 void lidx_deinit_icu_utils(void);
 
+unsigned int lidx_u_get_length(const UChar * word);
 UChar * lidx_from_utf8(const char * word);
 char * lidx_to_utf8(const UChar * word);
 char * lidx_transliterate(const UChar * text, int length);

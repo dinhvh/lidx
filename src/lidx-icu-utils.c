@@ -6,6 +6,11 @@
 
 #include "lidx-utils.h"
 
+#if __APPLE__
+#include <CoreFoundation/CoreFoundation.h>
+#endif
+
+#if !__APPLE__
 // Transliteration helpers.
 
 typedef struct XReplaceable {
@@ -128,34 +133,88 @@ void lidx_deinit_icu_utils(void)
 {
   utrans_close(s_trans);
 }
+#else
+void lidx_init_icu_utils(void)
+{
+}
 
+void lidx_deinit_icu_utils(void)
+{
+}
+#endif
+
+unsigned int lidx_u_get_length(const UChar * word)
+{
+  unsigned int length = 0;
+  while (* word != 0) {
+    word ++;
+    length ++;
+  }
+  return length;
+}
 
 // UTF <-> UTF16
 
 UChar * lidx_from_utf8(const char * word)
 {
+#if __APPLE__
+  int len = (int) strlen(word);
+  CFStringRef str = CFStringCreateWithBytes(NULL, (const UInt8 *) word, len, kCFStringEncodingUTF8, false);
+  CFIndex resultLength = CFStringGetLength(str);
+  UniChar * buffer = malloc((resultLength + 1) * sizeof(* buffer));
+  buffer[resultLength] = 0;
+  CFStringGetCharacters(str, CFRangeMake(0, resultLength), buffer);
+  CFRelease(str);
+  return (UChar *) buffer;
+#else
   int len = (int) strlen(word);
   UChar * uword = (UChar *) malloc(sizeof(* uword) * (len + 1));
   uword[len] = 0;
   UErrorCode status = U_ZERO_ERROR;
   u_strFromUTF8(uword, len + 1, NULL, word, len, &status);
   return uword;
+#endif
 }
 
 char * lidx_to_utf8(const UChar * word)
 {
+#if __APPLE__
+  unsigned int len = lidx_u_get_length(word);
+  CFStringRef str = CFStringCreateWithBytes(NULL, (const UInt8 *) word, len * sizeof(* word), kCFStringEncodingUTF16LE, false);
+  char * buffer = (char *) malloc(len * 6 + 1);
+  buffer[len * 6 + 1] = 0;
+  CFStringGetCString(str, buffer, len * 6 + 1, kCFStringEncodingUTF8);
+  CFRelease(str);
+  return buffer;
+#else
   int len = u_strlen(word);
   char * utf8word = (char *) malloc(len * 6 + 1);
   utf8word[len] = 0;
   UErrorCode status = U_ZERO_ERROR;
   u_strToUTF8(utf8word, len * 6 + 1, NULL, word, len, &status);
   return utf8word;
+#endif
 }
 
 // transliterate to ASCII
 
 char * lidx_transliterate(const UChar * text, int length)
 {
+#if __APPLE__
+  if (length == -1) {
+    length = lidx_u_get_length(text);
+  }
+
+  CFMutableStringRef cfStr = CFStringCreateMutable(NULL, 0);
+  CFStringAppendCharacters(cfStr, (const UniChar *) text, length);
+  CFStringTransform(cfStr, NULL, CFSTR("Any-Latin; NFD; Lower; [:nonspacing mark:] remove; nfc"), false);
+  CFIndex resultLength = CFStringGetLength(cfStr);
+  char * buffer = (char *) malloc(resultLength + 1);
+  buffer[resultLength] = 0;
+  CFStringGetCString(cfStr, buffer, resultLength + 1, kCFStringEncodingUTF8);
+  CFRelease(cfStr);
+  return buffer;
+#else
   if (length == -1) {
     length = u_strlen(text);
   }
@@ -179,4 +238,5 @@ char * lidx_transliterate(const UChar * text, int length)
   FreeXReplaceable(&xrep);
   err:
   return NULL;
+#endif
 }

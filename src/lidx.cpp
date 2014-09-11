@@ -13,6 +13,10 @@
 #include <set>
 #include <map>
 
+#if __APPLE__
+#include <CoreFoundation/CoreFoundation.h>
+#endif
+
 static int db_put(lidx * index, std::string & key, std::string & value);
 static int db_get(lidx * index, std::string & key, std::string * p_value);
 static int db_delete(lidx * index, std::string & key);
@@ -109,6 +113,50 @@ int lidx_u_set(lidx * index, uint64_t doc, const UChar * utext)
 
 static int tokenize(lidx * index, uint64_t doc, const UChar * text)
 {
+#if __APPLE__
+  int result = 0;
+  unsigned int len = lidx_u_get_length(text);
+  CFStringRef str = CFStringCreateWithBytes(NULL, (const UInt8 *) text, len * sizeof(* text), kCFStringEncodingUTF16LE, false);
+  CFStringTokenizerRef tokenizer = CFStringTokenizerCreate(NULL, str, CFRangeMake(0, len), kCFStringTokenizerUnitWord, NULL);
+  std::set<uint64_t> wordsids_set;
+  while (1) {
+    CFStringTokenizerTokenType wordKind = CFStringTokenizerAdvanceToNextToken(tokenizer);
+    if (wordKind == kCFStringTokenizerTokenNone) {
+      break;
+    }
+    if (wordKind == kCFStringTokenizerTokenHasNonLettersMask) {
+      continue;
+    }
+    CFRange range = CFStringTokenizerGetCurrentTokenRange(tokenizer);
+    char * transliterated = lidx_transliterate(&text[range.location], (int) range.length);
+    if (transliterated == NULL) {
+      continue;
+    }
+    int r = add_to_indexer(index, doc, transliterated, wordsids_set);
+    if (r < 0) {
+      result = r;
+      break;
+    }
+    
+    free(transliterated);
+  }
+  CFRelease(str);
+  CFRelease(tokenizer);
+  
+  std::string key(",");
+  lidx_encode_uint64(key, doc);
+  
+  std::string value_str;
+  for(std::set<uint64_t>::iterator wordsids_set_iterator = wordsids_set.begin() ; wordsids_set_iterator != wordsids_set.end() ; ++ wordsids_set_iterator) {
+    lidx_encode_uint64(value_str, * wordsids_set_iterator);
+  }
+  int r = db_put(index, key, value_str);
+  if (r < 0) {
+    return r;
+  }
+  
+  return result;
+#else
   int result = 0;
   UErrorCode status;
   status = U_ZERO_ERROR;
@@ -161,6 +209,7 @@ static int tokenize(lidx * index, uint64_t doc, const UChar * text)
   }
   
   return result;
+#endif
 }
 
 static int add_to_indexer(lidx * index, uint64_t doc, const char * word,
