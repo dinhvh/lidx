@@ -47,6 +47,15 @@ int lidx_set(lidx * index, uint64_t doc, const char * text);
 // `content`: content of the document in UTF-16 encoding.
 int lidx_u_set(lidx * index, uint64_t doc, const UChar * utext);
 
+// Adds a UTF-8 document to the indexer.
+// `doc`: document identifier (numerical identifier in a 64-bits range)
+// `content`: content of the document in UTF-8 encoding.
+int lidx_set2(lidx * index, uint64_t doc, const char * text, int tokenize_enabled);
+
+// Adds an unicode document to the indexer.
+// `content`: content of the document in UTF-16 encoding.
+int lidx_u_set2(lidx * index, uint64_t doc, const UChar * utext, int tokenize_enabled);
+
 // Removes a document from the indexer.
 int lidx_remove(lidx * index, uint64_t doc);
 

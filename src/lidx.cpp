@@ -86,101 +86,122 @@ int lidx_flush(lidx * index)
 // word -> append doc id to docs ids
 // store doc id -> words ids
 
-static int tokenize(lidx * index, uint64_t doc, const UChar * text);
+static int tokenize(lidx * index, uint64_t doc, const UChar * text, int tokenize_enabled);
 static int add_to_indexer(lidx * index, uint64_t doc, const char * word,
     std::set<uint64_t> & wordsids_set);
 
 int lidx_set(lidx * index, uint64_t doc, const char * text)
 {
+    return lidx_set2(index, doc, text, 1);
+}
+
+int lidx_set2(lidx * index, uint64_t doc, const char * text, int tokenize_enabled)
+{
   UChar * utext = lidx_from_utf8(text);
-  int result = lidx_u_set(index, doc, utext);
+  int result = lidx_u_set2(index, doc, utext, tokenize_enabled);
   free((void *) utext);
   return result;
 }
 
 int lidx_u_set(lidx * index, uint64_t doc, const UChar * utext)
 {
+    return lidx_u_set2(index, doc, utext, 1);
+}
+
+int lidx_u_set2(lidx * index, uint64_t doc, const UChar * utext, int tokenize_enabled)
+{
   int r = lidx_remove(index, doc);
   if (r < 0) {
     return r;
   }
-  r = tokenize(index, doc, utext);
+  r = tokenize(index, doc, utext, tokenize_enabled);
   if (r < 0) {
     return r;
   }
   return 0;
 }
 
-static int tokenize(lidx * index, uint64_t doc, const UChar * text)
+static int tokenize(lidx * index, uint64_t doc, const UChar * text, int tokenize_enabled)
 {
   int result = 0;
+  std::set<uint64_t> wordsids_set;
+  if (tokenize_enabled) {
 #if __APPLE__
-  unsigned int len = lidx_u_get_length(text);
-  CFStringRef str = CFStringCreateWithBytes(NULL, (const UInt8 *) text, len * sizeof(* text), kCFStringEncodingUTF16LE, false);
-  CFStringTokenizerRef tokenizer = CFStringTokenizerCreate(NULL, str, CFRangeMake(0, len), kCFStringTokenizerUnitWord, NULL);
-  std::set<uint64_t> wordsids_set;
-  while (1) {
-    CFStringTokenizerTokenType wordKind = CFStringTokenizerAdvanceToNextToken(tokenizer);
-    if (wordKind == kCFStringTokenizerTokenNone) {
-      break;
-    }
-    if (wordKind == kCFStringTokenizerTokenHasNonLettersMask) {
-      continue;
-    }
-    CFRange range = CFStringTokenizerGetCurrentTokenRange(tokenizer);
-    char * transliterated = lidx_transliterate(&text[range.location], (int) range.length);
-    if (transliterated == NULL) {
-      continue;
-    }
-    int r = add_to_indexer(index, doc, transliterated, wordsids_set);
-    if (r < 0) {
-      result = r;
-      break;
-    }
+    unsigned int len = lidx_u_get_length(text);
+    CFStringRef str = CFStringCreateWithBytes(NULL, (const UInt8 *) text, len * sizeof(* text), kCFStringEncodingUTF16LE, false);
+    CFStringTokenizerRef tokenizer = CFStringTokenizerCreate(NULL, str, CFRangeMake(0, len), kCFStringTokenizerUnitWord, NULL);
+    while (1) {
+      CFStringTokenizerTokenType wordKind = CFStringTokenizerAdvanceToNextToken(tokenizer);
+      if (wordKind == kCFStringTokenizerTokenNone) {
+        break;
+      }
+      if (wordKind == kCFStringTokenizerTokenHasNonLettersMask) {
+        continue;
+      }
+      CFRange range = CFStringTokenizerGetCurrentTokenRange(tokenizer);
+      char * transliterated = lidx_transliterate(&text[range.location], (int) range.length);
+      if (transliterated == NULL) {
+        continue;
+      }
+      int r = add_to_indexer(index, doc, transliterated, wordsids_set);
+      if (r < 0) {
+        result = r;
+        break;
+      }
     
-    free(transliterated);
-  }
-  CFRelease(str);
-  CFRelease(tokenizer);
+      free(transliterated);
+    }
+    CFRelease(str);
+    CFRelease(tokenizer);
 #else
-  UErrorCode status;
-  status = U_ZERO_ERROR;
-  UBreakIterator * iterator = ubrk_open(UBRK_WORD, NULL, text, u_strlen(text), &status);
-  LIDX_ASSERT(status <= U_ZERO_ERROR);
+    UErrorCode status;
+    status = U_ZERO_ERROR;
+    UBreakIterator * iterator = ubrk_open(UBRK_WORD, NULL, text, u_strlen(text), &status);
+    LIDX_ASSERT(status <= U_ZERO_ERROR);
   
-  int32_t left = 0;
-  int32_t right = 0;
-  int word_kind = 0;
-  ubrk_first(iterator);
-  std::set<uint64_t> wordsids_set;
-  
-  while (1) {
-    left = right;
-    right = ubrk_next(iterator);
-    if (right == UBRK_DONE) {
-      break;
-    }
+    int32_t left = 0;
+    int32_t right = 0;
+    int word_kind = 0;
+    ubrk_first(iterator);
 
-    word_kind = ubrk_getRuleStatus(iterator);
-    if (word_kind == 0) {
-      // skip punctuation and space.
-      continue;
-    }
+    while (1) {
+      left = right;
+      right = ubrk_next(iterator);
+      if (right == UBRK_DONE) {
+        break;
+      }
 
-    char * transliterated = lidx_transliterate(&text[left], right - left);
-    if (transliterated == NULL) {
-      continue;
-    }
-    int r = add_to_indexer(index, doc, transliterated, wordsids_set);
-    if (r < 0) {
-      result = r;
-      break;
-    }
+      word_kind = ubrk_getRuleStatus(iterator);
+      if (word_kind == 0) {
+        // skip punctuation and space.
+        continue;
+      }
 
+      char * transliterated = lidx_transliterate(&text[left], right - left);
+      if (transliterated == NULL) {
+        continue;
+      }
+      int r = add_to_indexer(index, doc, transliterated, wordsids_set);
+      if (r < 0) {
+        result = r;
+        break;
+      }
+
+      free(transliterated);
+    }
+    ubrk_close(iterator);
+#endif
+  }
+  else {
+    char * transliterated = lidx_transliterate(text, lidx_u_get_length(text));
+    if (transliterated != NULL) {
+      int r = add_to_indexer(index, doc, transliterated, wordsids_set);
+      if (r < 0) {
+        result = r;
+      }
+    }
     free(transliterated);
   }
-  ubrk_close(iterator);
-#endif
   std::string key(",");
   lidx_encode_uint64(key, doc);
   
